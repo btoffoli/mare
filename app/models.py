@@ -1,4 +1,3 @@
-from sqlalchemy import Column, DateTime, String, Integer, func, ForeignKey, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from geoalchemy2 import Geometry
