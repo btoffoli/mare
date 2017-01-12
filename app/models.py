@@ -25,10 +25,10 @@ class Client(AbstractModel, Base):
 class User(AbstractModel, Base):
     __tablename__   = 'user'
 
-    login           = Column(String(48))
-    email           = Column(String)
-    name            = Column(String(128))
-    identify_doc    = Column(String(28))
+    login           = Column(String(48), nullable=False)
+    email           = Column(String, nullable=False)
+    name            = Column(String(128), nullable=False)
+    identify_doc    = Column(String(28), nullable=False)
 
     client_id       = Column(ForeignKey('client.id'),
                            nullable=False,
@@ -47,17 +47,17 @@ class UserSession(AbstractModel, Base):
     user            = relationship(User)
 
 
-class Equipment(AbstractModel, Base):    
+class Equipment(AbstractModel, Base):
     __tablename__ = 'equipment'
 
-    prefix_identify = Column(String)
+    prefix_identify = Column(String, nullable=False)
 
     nickname        = Column(String(64))
 
     client_id       = Column(ForeignKey('client.id'),
                            nullable=False,
                            index=True)
-    client          = relationship(Client)    
+    client          = relationship(Client)
 
 
 

@@ -18,7 +18,15 @@ class MareService:
         return dbConfig.session()
 
 
-    def insertClient(self, name, identify, commit=True):        
+    def get_client(self, description):
+        client = None
+        q = dbConfig.session().query(Client).filter(Item.nome==description or Item.nome==description)
+        clients = q.all()
+        client = q.all() if clients else None
+        return client
+
+
+    def insert_client(self, name, identify, commit=True):
         client = Client(name=name, identify=identify)
         self.__sessao.add(client)
         if commit:
