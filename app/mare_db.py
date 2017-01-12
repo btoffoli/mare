@@ -7,7 +7,7 @@ from sqlalchemy import func
 
 
 
-class LocalizadorService:
+class MareService:
 
     # TODO metodo inserirDispositivo, mapear tipo_dispositivo
     # TODO mapear dispositvo e item em instalacao implementar teste p/ verificar
@@ -18,10 +18,11 @@ class LocalizadorService:
         return dbConfig.session()
 
 
-    def insertClient(self, name, identify):        
+    def insertClient(self, name, identify, commit=True):        
         client = Client(name=name, identify=identify)
         self.__sessao.add(client)
-        self.__sessao.commit()
+        if commit:
+            self.__sessao.commit()
         return client
 
 

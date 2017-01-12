@@ -1,3 +1,4 @@
+from sqlalchemy import Column, DateTime, String, Integer, func, ForeignKey, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from geoalchemy2 import Geometry
@@ -10,11 +11,15 @@ class AbstractModel:
     created = Column(DateTime(timezone=True), default=func.now())
     updated = Column(DateTime(timezone=True), default=func.now())
 
+    def __repr__(self):
+        return "<class: %s - id: %d - identify: %d>" %(type(self), self.id, id(self))
+
 class Client(AbstractModel, Base):
     __tablename__   = 'client'
 
-    name            = Column(String)
-    identify        = Column(String)
+    name            = Column(Strin, nullable=False)
+    identify        = Column(String, nullable=False)
+
 
 
 class User(AbstractModel, Base):
@@ -43,7 +48,7 @@ class UserSession(AbstractModel, Base):
 
 
 class Equipment(AbstractModel, Base):    
-    __tablename__ = 'equipament'
+    __tablename__ = 'equipment'
 
     prefix_identify = Column(String)
 
