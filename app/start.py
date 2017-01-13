@@ -1,7 +1,11 @@
 from mare_db import MareService
+from models import Client
 
 mareService = MareService()
 
-client = mareService.insert_client('Client Test1', 'CL1')
+# client = mareService.insert_client(name="LALA1", identify="lala2")
 
-print(client)
+client = mareService.insert("Client", name="LALA1", identify="lala2")
+
+
+

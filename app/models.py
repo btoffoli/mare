@@ -8,8 +8,9 @@ Base = declarative_base()
 
 class AbstractModel:
     id      = Column(Integer, primary_key=True)
-    created = Column(DateTime(timezone=True), default=func.now())
-    updated = Column(DateTime(timezone=True), default=func.now())
+    created = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated = Column(DateTime(timezone=True), server_default=func.now(), \
+        onupdate=func.utc_timestamp(), nullable=False)
 
     def __repr__(self):
         return "<class: %s - id: %d - identify: %d>" %(type(self), self.id, id(self))
@@ -17,7 +18,7 @@ class AbstractModel:
 class Client(AbstractModel, Base):
     __tablename__   = 'client'
 
-    name            = Column(Strin, nullable=False)
+    name            = Column(String, nullable=False)
     identify        = Column(String, nullable=False)
 
 
@@ -26,9 +27,9 @@ class User(AbstractModel, Base):
     __tablename__   = 'user'
 
     login           = Column(String(48), nullable=False)
-    email           = Column(String, nullable=False)
-    name            = Column(String(128), nullable=False)
-    identify_doc    = Column(String(28), nullable=False)
+    email           = Column(String(128), nullable=False)
+    name            = Column(String(128), nullable=True)
+    identify_doc    = Column(String(28), nullable=True)
 
     client_id       = Column(ForeignKey('client.id'),
                            nullable=False,
@@ -50,7 +51,7 @@ class UserSession(AbstractModel, Base):
 class Equipment(AbstractModel, Base):
     __tablename__ = 'equipment'
 
-    prefix_identify = Column(String, nullable=False)
+    prefix_identify = Column(String(48), nullable=False)
 
     nickname        = Column(String(64))
 

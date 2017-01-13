@@ -26,12 +26,22 @@ class MareService:
         return client
 
 
-    def insert_client(self, name, identify, commit=True):
-        client = Client(name=name, identify=identify)
+    def insert_client(self, **kwargs):
+        client = Client(**kwargs)
         self.__sessao.add(client)
-        if commit:
+        if kwargs.get("commit", True):
             self.__sessao.commit()
         return client
+
+    def insert(self, classe, **kwargs):
+        print(classe)
+        build = "%s(**kwargs)" % classe
+        print(build)
+        obj = eval(build)
+        self.__sessao.add(obj)
+        if kwargs.get('commit', True):
+            self.__sessao.commit()
+        return obj
 
 
     # def inserirDispositivo(self, tipo, codigo, nome, commit=True):
