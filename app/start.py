@@ -1,5 +1,4 @@
 from mare_db import MareService
-from models import Client
 
 mareService = MareService()
 

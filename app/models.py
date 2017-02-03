@@ -12,6 +12,14 @@ class AbstractModel:
     updated = Column(DateTime(timezone=True), server_default=func.now(), \
         onupdate=func.utc_timestamp(), nullable=False)
 
+    def to_map(self):
+        map_obj = {
+            "id": self.id,
+            "created": self.created,
+            "updated": self.updated
+        }
+        return map_obj
+
     def __repr__(self):
         return "<class: %s - id: %d - identify: %d>" %(type(self), self.id, id(self))
 
@@ -20,6 +28,14 @@ class Client(AbstractModel, Base):
 
     name            = Column(String, nullable=False)
     identify        = Column(String, nullable=False)
+
+    def to_map(self):
+        super_ref = super(Client, self)
+        obj_map = super_ref.to_map()
+        obj_map["name"] = self.name
+        obj_map["idenfity"] = self.identify
+        return obj_map
+
 
 
 

@@ -18,13 +18,17 @@ class MareService:
         return dbConfig.session()
 
 
-    def get_client(self, description):
+    def get_client_by_description(self, description):
         client = None
         q = dbConfig.session().query(Client).filter(Item.nome==description or Item.nome==description)
         clients = q.all()
         client = q.all() if clients else None
         return client
 
+    def get_client_by_id(self, id):
+        client = None
+        client = dbConfig.session().query(Client).get(id)
+        return client
 
     def insert_client(self, **kwargs):
         client = Client(**kwargs)
@@ -33,13 +37,13 @@ class MareService:
             self.__sessao.commit()
         return client
 
-    def insert(self, classe, **kwargs):
+    def insert(self, classe, commit=False, **kwargs):
         print(classe)
         build = "%s(**kwargs)" % classe
         print(build)
         obj = eval(build)
         self.__sessao.add(obj)
-        if kwargs.get('commit', True):
+        if commit:
             self.__sessao.commit()
         return obj
 
