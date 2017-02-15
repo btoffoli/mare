@@ -112,3 +112,15 @@ class DataEvent(AbstractModel, Base):
                            index=True)
     equipment           = relationship(Equipment)
 
+class CTDEvent(AbstractModel, Base):
+    __tablename__                   = 'ctd_event'
+
+    distance_from_water_level       = Column(Float(precision=2))
+    pressure                        = Column(Integer)
+    tide                            = Column(Float(precision=2))
+    voltage                         = Column(Float(precision=2))
+
+    equipment_id        = Column(ForeignKey('equipment.id'),
+                          nullable=False,
+                           index=True)
+    equipment           = relationship(Equipment)
