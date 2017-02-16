@@ -77,7 +77,7 @@ class Equipment(AbstractModel, Base):
     client          = relationship(Client)
 
 
-
+'''
 class DataEvent(AbstractModel, Base):
     __tablename__       = 'data_event'
 
@@ -111,9 +111,10 @@ class DataEvent(AbstractModel, Base):
                           nullable=False,
                            index=True)
     equipment           = relationship(Equipment)
+'''
 
-class CTDEvent(AbstractModel, Base):
-    __tablename__                   = 'ctd_event'
+class TideGaugeEvent(AbstractModel, Base):
+    __tablename__                   = 'tide_gauge_event'
 
     distance_from_water_level       = Column(Float(precision=2))
     pressure                        = Column(Integer)
