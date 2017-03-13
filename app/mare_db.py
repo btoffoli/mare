@@ -1,7 +1,7 @@
 import datetime
 
 from config import dbConfig
-from models import Client, User, Equipment, DataEvent
+from models import Client, User, Equipment, TideGaugeEvent
 from datetime import datetime, timedelta
 from sqlalchemy import func
 
