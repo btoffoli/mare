@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, String, Integer, func, ForeignKey, Float
+from sqlalchemy import Column, DateTime, String, Integer, func, ForeignKey, Float, Index
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from geoalchemy2 import Geometry
@@ -120,8 +120,11 @@ class TideGaugeEvent(AbstractModel, Base):
     pressure                        = Column(Integer)
     tide                            = Column(Float(precision=2))
     voltage                         = Column(Float(precision=2))
-
+    event_time                      = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     equipment_id        = Column(ForeignKey('equipment.id'),
                           nullable=False,
                            index=True)
     equipment           = relationship(Equipment)
+
+
+Index('idx_tide_gauge_event_time', TideGaugeEvent.event_time, TideGaugeEvent.equipment_id)

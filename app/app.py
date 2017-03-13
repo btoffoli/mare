@@ -18,12 +18,8 @@ def hello():
 class ClientApi(Resource):
 	"""Api restful for client domain class"""
 	def get(self, id):
-		if id:
-			client = mare_service.get_by_id('Client', id)
-			return jsonify(client.to_map() if client else {})
-		else:
-			clients = mare_service.list(client)
-			return jsonify([i.to_map for i in clients])
+		client = mare_service.get_by_id('Client', id)
+		return jsonify(client.to_map() if client else {})
 
 	def put(self, id):
 		pass
@@ -31,14 +27,26 @@ class ClientApi(Resource):
 	def delete(self, id):
 		pass
 
-	# def list(self, limit=10, offset=0):		
+class ClientApiList(Resource):
+	"""Api restful for client domain class"""
+	def get(self):
+		clients = mare_service.list('Client')
+		return jsonify([i.to_map for i in clients])
+
+	def put(self, id):
+		pass
+
+	def delete(self, id):
+		pass
+
+	# def list(self, limit=10, offset=0):
 	# 	clients = mare_service.list('Client', limit, offset)
 	# 	clients_json = map(lambda i: i.to_map(), clients) if clients else []
 	# 	return jsonify(clients_json)
 
 
 
-# api.add_resource(ClientApi, '/client', endpoint = 'client')
+api.add_resource(ClientApiList, '/clients', endpoint = 'clients')
 api.add_resource(ClientApi, '/client/<int:id>', endpoint = 'client')
 # api.add_resource(ClientApi, '/client/list', endpoint = 'list')
 

@@ -1,8 +1,8 @@
 """“baseline”
 
-Revision ID: 4973b2ac32f1
+Revision ID: efdf8904e62d
 Revises: 
-Create Date: 2017-02-16 10:56:27.212134
+Create Date: 2017-03-13 15:35:12.063859
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4973b2ac32f1'
+revision = 'efdf8904e62d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -58,10 +58,12 @@ def upgrade():
     sa.Column('pressure', sa.Integer(), nullable=True),
     sa.Column('tide', sa.Float(precision=2), nullable=True),
     sa.Column('voltage', sa.Float(precision=2), nullable=True),
+    sa.Column('event_time', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.Column('equipment_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['equipment_id'], ['equipment.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_index('idx_tide_gauge_event_time', 'tide_gauge_event', ['event_time', 'equipment_id'], unique=False)
     op.create_index(op.f('ix_tide_gauge_event_equipment_id'), 'tide_gauge_event', ['equipment_id'], unique=False)
     op.create_table('user_session',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -81,6 +83,7 @@ def downgrade():
     op.drop_index(op.f('ix_user_session_user_id'), table_name='user_session')
     op.drop_table('user_session')
     op.drop_index(op.f('ix_tide_gauge_event_equipment_id'), table_name='tide_gauge_event')
+    op.drop_index('idx_tide_gauge_event_time', table_name='tide_gauge_event')
     op.drop_table('tide_gauge_event')
     op.drop_index(op.f('ix_user_client_id'), table_name='user')
     op.drop_table('user')

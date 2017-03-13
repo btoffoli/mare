@@ -2,7 +2,7 @@ import datetime
 
 from config import dbConfig
 from models import Client, User, Equipment, TideGaugeEvent
-from datetime import datetime, timedelta
+# from datetime import datetime, timedelta
 from sqlalchemy import func
 
 
@@ -18,14 +18,14 @@ class MareService:
         return dbConfig.session()
 
 
-    
+
     def get_by_id(self, classename, id):
         # build = "dbConfig.session().query(%s).get(id)" % classe
         # obj = eval(build)
         obj = dbConfig.session().query(eval(classename)).get(id)
         return obj
 
-   
+
     def insert(self, classe, commit=False, **kwargs):
         build = "%s(**kwargs)" % classe
         # print(build)
@@ -39,7 +39,7 @@ class MareService:
         query_str = "dbConfig.session().query(%s).filter_by(**kwargs).limit(%d)" \
             % (classe, limit)
         if offset:
-            query_str += ".offset(%d)" % offset        
+            query_str += ".offset(%d)" % offset
         query_str += ".all()"
         objs   = eval(query_str)
 
